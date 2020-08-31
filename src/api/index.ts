@@ -3,7 +3,9 @@ import { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
 import * as NProgress from 'nprogress'
 import * as Cookies from 'js-cookie';
 import { message } from 'antd'
-import constant from './api'
+import constant from './api';
+
+const { dev_base_url } = constant
 
 axios.defaults.timeout = 10000
 axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
@@ -11,7 +13,7 @@ axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
 
 let startFlag: Boolean = false // loading start
 
-export default function AxiosConfig() {
+export default function Axios(url: any, method: any, data: any) {
     // 请求拦截器
     axios.interceptors.request.use((config: AxiosRequestConfig) => {
         if (config.data && config.data.showLoading) {
@@ -51,5 +53,20 @@ export default function AxiosConfig() {
             NProgress.done()
         }
         return Promise.reject(err)
+    })
+
+    // 请求方法
+    return new Promise((resolve, reject) => {
+        axios({
+            url: url,
+            method: method,
+            data: data || {},
+        })
+        .then((res) => {
+            resolve(res.data)
+        })
+        .catch(err => {
+            reject(err)
+        })
     })
 }
