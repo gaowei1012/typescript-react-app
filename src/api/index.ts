@@ -13,7 +13,7 @@ axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
 
 let startFlag: Boolean = false // loading start
 
-export default function Axios(url: any, method: any, data: any) {
+export default function AxiosConfig() {
     // 请求拦截器
     axios.interceptors.request.use((config: AxiosRequestConfig) => {
         if (config.data && config.data.showLoading) {
@@ -55,18 +55,18 @@ export default function Axios(url: any, method: any, data: any) {
         return Promise.reject(err)
     })
 
-    // 请求方法
-    return new Promise((resolve, reject) => {
-        axios({
-            url: url,
-            method: method,
-            data: data || {},
-        })
-        .then((res) => {
-            resolve(res.data)
-        })
-        .catch(err => {
-            reject(err)
-        })
-    })
+    // // 请求方法
+    // return new Promise((resolve, reject) => {
+    //     axios({
+    //         url: url,
+    //         method: method,
+    //         data: data || {},
+    //     })
+    //     .then((res) => {
+    //         resolve(res.data)
+    //     })
+    //     .catch(err => {
+    //         reject(err)
+    //     })
+    // })
 }
